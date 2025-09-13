@@ -91,6 +91,8 @@ const getData = async () => {
       store_name: item.store_name,
       image: item.image,
       price: item.price,
+      stock: item.stock,
+      sales: item.sales,
       pcUrl: getPcUrl(item.id),
       h5Url: getH5Url(item.id),
     }))
@@ -106,9 +108,22 @@ const getData = async () => {
   }
 }
 
+const getProductTemplate = product => `
+    <div class="item">
+        <h3>${i.store_name}</h3>
+        <img src="${i.image}"/>
+        <p>价格: ${i.price}</p>
+        <p>库存: ${i.stock}</p>
+        <p>销量: ${i.sales}</p>
+        <a href="${i.pcUrl}" target="_blank">PC页面</a>
+        <a href="${i.h5Url}" target="_blank">H5页面</a>
+    </div>
+`
+
 const main = async () => {
   try {
     const { allList, grList } = await getData()
+
     const html = `
     <!DOCTYPE html>
     <html lang="zh">
@@ -125,36 +140,12 @@ const main = async () => {
       <h1>最新商品（自动更新快照）</h1>
       <p>更新于：${new Date().toLocaleString()}</p>
       <div>
-        ${allList
-          .map(
-            i => `
-            <div class="item">
-              <h3>${i.store_name}</h3>
-              <img src="${i.image}" />
-              <p>价格: ${i.price}</p>
-              <a href="${i.pcUrl}" target="_blank">PC页面</a> |
-              <a href="${i.h5Url}" target="_blank">H5页面</a>
-            </div>
-          `
-          )
-          .join('')}
+        ${allList.map(item => getProductTemplate(item)).join('')}
       </div>
       <br/>
       <h2>GR系列</h2>
       <div>
-        ${grList
-          .map(
-            i => `
-            <div class="item">
-              <h3>${i.store_name}</h3>
-              <img src="${i.image}" />
-              <p>价格: ${i.price}</p>
-              <a href="${i.pcUrl}" target="_blank">PC页面</a> |
-              <a href="${i.h5Url}" target="_blank">H5页面</a>
-            </div>
-          `
-          )
-          .join('')}
+        ${grList.map(item => getProductTemplate(item)).join('')}
       </div>
     </body>
     </html>
