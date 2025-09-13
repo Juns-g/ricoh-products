@@ -1,0 +1,7 @@
+{
+  "name": "fetch-products",
+  "type": "module",
+  "scripts": {
+    "build": "node fetch-products.js"
+  }
+}
