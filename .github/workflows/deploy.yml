@@ -1,7 +1,6 @@
 name: Auto Fetch and Deploy
 
 on:
-  on:
   schedule:
     # 每 30 分钟触发一次（整点和半点）
     - cron: "0,30 * * * *"
