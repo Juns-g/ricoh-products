@@ -110,13 +110,13 @@ const getData = async () => {
 
 const getProductTemplate = product => `
     <div class="item">
-        <h3>${i.store_name}</h3>
-        <img src="${i.image}"/>
-        <p>价格: ${i.price}</p>
-        <p>库存: ${i.stock}</p>
-        <p>销量: ${i.sales}</p>
-        <a href="${i.pcUrl}" target="_blank">PC页面</a>
-        <a href="${i.h5Url}" target="_blank">H5页面</a>
+        <h3>${product.store_name}</h3>
+        <img src="${product.image}"/>
+        <p>价格: ${product.price}</p>
+        <p>库存: ${product.stock}</p>
+        <p>销量: ${product.sales}</p>
+        <a href="${product.pcUrl}" target="_blank">PC页面</a>
+        <a href="${product.h5Url}" target="_blank">H5页面</a>
     </div>
 `
 
