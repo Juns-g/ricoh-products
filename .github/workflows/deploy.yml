@@ -1,4 +1,4 @@
-name: Auto Fetch and Deploy
+name: Auto Fetch and Deploy to Pages
 
 on:
   schedule:
@@ -8,36 +8,58 @@ on:
     - cron: "1 7 * * *"
     # 北京时间 17:01
     - cron: "1 9 * * *"
-  workflow_dispatch:       # 可以手动触发
+  workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: ["main"]
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # 1️⃣ 拉取仓库代码
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      # 2️⃣ 安装 Node
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
+      # 3️⃣ 安装依赖
       - name: Install deps
         run: npm install node-fetch
 
-      - name: Run script
+      # 4️⃣ 运行脚本生成静态文件（dist）
+      - name: Run fetch script
         run: npm run build
         env:
           SITE_PHONE: ${{ secrets.SITE_PHONE }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      # 5️⃣ 配置 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6️⃣ 上传生成的 dist 目录
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: './dist'
+
+      # 7️⃣ 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
