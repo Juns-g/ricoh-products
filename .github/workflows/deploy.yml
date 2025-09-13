@@ -25,12 +25,13 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install
+        run: npm install node-fetch
 
       - name: Run script
         run: npm run build
         env:
-          API_TOKEN: ${{ secrets.API_TOKEN }} # 在仓库 Settings → Secrets 里配置
+          SITE_PHONE: ${{ secrets.SITE_PHONE }}
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
