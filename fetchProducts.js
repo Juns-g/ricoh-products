@@ -138,7 +138,9 @@ const main = async () => {
     </head>
     <body>
       <h1>最新商品（自动更新快照）</h1>
-      <p>更新于：${new Date().toLocaleString()}</p>
+      <p>更新于：${new Date().toLocaleString('zh-CN', {
+        timeZone: 'Asia/Shanghai',
+      })}</p>
       <div>
         ${allList.map(item => getProductTemplate(item)).join('')}
       </div>
