@@ -3,5 +3,9 @@
   "type": "module",
   "scripts": {
     "build": "node fetchProducts.js"
+  },
+  "dependencies": {
+    "node-fetch": "3.3.2",
+    "nodemailer": "7.0.6"
   }
 }

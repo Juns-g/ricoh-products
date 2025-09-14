@@ -4,10 +4,10 @@ on:
   schedule:
     # 每 30 分钟触发一次（整点和半点）
     - cron: "0,30 * * * *"
-    # 北京时间 15:01
-    - cron: "1 7 * * *"
-    # 北京时间 17:01
-    - cron: "1 9 * * *"
+    # 北京时间 14:59
+    - cron: "59 6 * * *"
+    # 北京时间 16:59
+    - cron: "59 8 * * *"
   workflow_dispatch:
   push:
     branches: ["main"]
@@ -40,7 +40,7 @@ jobs:
 
       # 3️⃣ 安装依赖
       - name: Install deps
-        run: npm install node-fetch
+        run: npm install
 
       # 4️⃣ 运行脚本生成静态文件（dist）
       - name: Run fetch script
@@ -48,6 +48,8 @@ jobs:
         env:
           SITE_PHONE: ${{ secrets.SITE_PHONE }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
 
       # 5️⃣ 配置 GitHub Pages
       - name: Setup Pages
